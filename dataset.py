@@ -25,7 +25,8 @@ class Dataset:
                 self.point.append(np.random.uniform(-1,1))
             self.data[i].append(self.point)
 
-        #Specifies the class for each point
+           
+        #Specifies the class for each point 
         
         if data_type == "circle":
             for i in xrange(size):
