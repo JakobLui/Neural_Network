@@ -14,7 +14,7 @@ class Tensor:
 
     def initiate_weights (self):
 
-        #Initialising the weights as random values
+        #Initialising the weights as random values 
         for i in xrange(self.output_size):
             self.weights.append([])
             for j in xrange(self.input_size + 1):
