@@ -3,7 +3,7 @@ import pygame, sys
 from dataset import *
 from network import *
 
-#Change these parameters to change the network
+#Change these parameters to change the network 
 Datasize = 300
 Learning_rate = 0.01
 Network_structure = [5,3]
