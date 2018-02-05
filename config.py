@@ -23,3 +23,9 @@ Data_type = "cross"
 
 #Choose between tanh, sigmoid, relu and linear
 Activation_function = "tanh"
+
+#Initialising values
+Epoch = 0
+reset = True
+firstTime = True
+train = False
