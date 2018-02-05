@@ -18,8 +18,6 @@ myfont = pygame.font.SysFont("Arial", 30)
 
 def stop_button (screen, x, y, mouse, train):
     #Draws the stop button
-    #x = screen_height + 115
-    #y = screen_height - 65
     if np.sqrt((x - mouse[0])**2 + (y - mouse[1])**2) < 25:
         pygame.draw.circle(screen, (120,120,120), (x, y),25,0)
         pygame.draw.circle(screen, (50,50,50), (x, y),25,2)
@@ -51,6 +49,7 @@ def play_button (screen, x, y, mouse, train):
             pygame.draw.rect(screen,(150,150,150),(x + 3, y - 10,7,20),0)
 
 def draw_loss (screen, x, y, network, dataset, train):
+    #Checks the loss of the network and draws it on the screen
     if train:
         Test_loss = myfont.render("{}".format(round(network.test(dataset.data,"test"),10)), False, (0,0,0))
         Training_loss = myfont.render("{}".format(round(network.test(dataset.data,"training"),10)), False, (0,0,0))
@@ -73,6 +72,7 @@ def draw_epoch (screen, x, y, Epoch):
     screen.blit(epoch,(y - 150, 5))
 
 def show_dataset (screen, dataset):
+    #Iterates through the dataset and draws each point
     for i in xrange((len(dataset.data)*Training_size)/100):
         if dataset.data[i][1][0] < dataset.data[i][1][1]:
             color = (100,100,255)
