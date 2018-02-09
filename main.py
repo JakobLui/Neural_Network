@@ -17,7 +17,12 @@ def create_window():
 #Creating the window and defining variables needed for visualising the network
 create_window()
 
+#Initialising values
 isRunning = True
+Epoch = 0
+reset = True
+firstTime = True
+train = False
 
 #The loop that visualises, trains and runs the network
 while isRunning:
@@ -66,7 +71,6 @@ while isRunning:
     draw_epoch(window, window_height, window_width, Epoch)
 
     mouse = pygame.mouse.get_pos()
-
     #Draws the stop button
     stop_button(window,window_height + 115, window_height - 65, mouse, train)
 
