@@ -1,5 +1,6 @@
 import numpy as np
 import math
+from threading import *
 
 class Tensor:
 
@@ -14,7 +15,7 @@ class Tensor:
 
     def initiate_weights (self):
 
-        #Initialising the weights as random values 
+        #Initialising the weights as random values
         for i in xrange(self.output_size):
             self.weights.append([])
             for j in xrange(self.input_size + 1):
@@ -136,7 +137,7 @@ class Network:
 
         #Defines the array that contains the layers
         self.layers = []
-
+        
     def layer (self, layer_size,function):
 
         #Adds the layers, specifies the amount of neurons in each and initialises the weights
@@ -241,6 +242,11 @@ class Network:
                 Tensor.multi(1/mini_batch,self.weight_update,3)
                 self.update_weights(self.weight_update)
                 self.updated = True
+
+    def threaded_train (self, input_, mini_batch, training_size):
+        self.thread = Thread(target = self.train, args = (input_, mini_batch, training_size))
+        self.thread.start()
+        self.thread.join()
 
 
     def test (self, input_, loss_type):

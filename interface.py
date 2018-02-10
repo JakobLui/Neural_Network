@@ -48,8 +48,8 @@ def play_button (screen, x, y, mouse, train):
             pygame.draw.rect(screen,(150,150,150),(x - 10, y - 10,7,20),0)
             pygame.draw.rect(screen,(150,150,150),(x + 3, y - 10,7,20),0)
 
-def draw_loss (screen, x, y, network, dataset, train):
-    #Checks the loss of the network and draws it on the screen
+def draw_loss (screen, x, y, network, dataset, train, Epoch):
+    #Checks the loss of the network and the epochs and draws it on the screen
     if train:
         Test_loss = myfont.render("{}".format(round(network.test(dataset.data,"test"),10)), False, (0,0,0))
         Training_loss = myfont.render("{}".format(round(network.test(dataset.data,"training"),10)), False, (0,0,0))
@@ -61,14 +61,12 @@ def draw_loss (screen, x, y, network, dataset, train):
 
     test_loss = myfont.render("Test Loss:", False, (0,0,0))
     training_loss = myfont.render("Training Loss:", False, (0,0,0))
+    epoch = myfont.render("Epoch: {}".format(Epoch), False, (0,0,0))
 
     screen.blit(training_loss,(y - 150, 130))
     screen.blit(Training_loss,(y - 150, 155))
     screen.blit(test_loss,(y - 150, 55))
     screen.blit(Test_loss,(y - 150, 80))
-
-def draw_epoch (screen, x, y, Epoch):
-    epoch = myfont.render("Epoch: {}".format(Epoch), False, (0,0,0))
     screen.blit(epoch,(y - 150, 5))
 
 def show_dataset (screen, dataset):
