@@ -1,4 +1,3 @@
-import numpy as np
 import pygame, sys
 from threading import *
 from dataset import *
@@ -17,8 +16,6 @@ def create_window():
     window = pygame.display.set_mode((window_width, window_height), pygame.HWSURFACE|pygame.DOUBLEBUF)
 
 def Main():
-    #Creating the window and defining variables needed for visualising the network
-    create_window()
 
     #Initialising values
     isRunning = True
@@ -26,6 +23,9 @@ def Main():
     reset = True
     firstTime = True
     train = False
+
+    #Creating the window and defining variables needed for visualising the network
+    create_window()
 
     #The loop that visualises, trains and runs the network
     while isRunning:
@@ -90,9 +90,9 @@ def Main():
             if event.type == pygame.MOUSEBUTTONUP:
                 clicked = True
 
-            if clicked and np.sqrt((window_height + 115 - mouse[0])**2 + (window_height - 65 - mouse[1])**2) < 25:
+            if clicked and ((window_height + 115 - mouse[0])**2 + (window_height - 65 - mouse[1])**2)**0.5 < 25:
                 isRunning = False
-            elif clicked and np.sqrt((window_height + 45 - mouse[0])**2 + (window_height - 65 - mouse[1])**2) < 25:
+            elif clicked and ((window_height + 45 - mouse[0])**2 + (window_height - 65 - mouse[1])**2)**0.5 < 25:
                 if train:
                     train = False
                     reset = True

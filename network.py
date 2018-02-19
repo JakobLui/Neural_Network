@@ -1,5 +1,5 @@
-import numpy as np
-import math
+from math import exp
+from random import uniform
 from threading import *
 
 class Tensor:
@@ -19,7 +19,7 @@ class Tensor:
         for i in xrange(self.output_size):
             self.weights.append([])
             for j in xrange(self.input_size + 1):
-                self.weights[i].append(np.random.uniform(-1,1))
+                self.weights[i].append(uniform(-1,1))
 
     def summation (self, input_):
 
@@ -43,9 +43,12 @@ class Tensor:
         output = []
         for i in xrange(len(array)):
             if function == "tanh":
-                output.append(np.tanh(array[i]))
+                #output.append(np.tanh(array[i]))
+                sinh = exp(array[i]) - exp(array[i]*(-1))/2
+                cosh = exp(array[i]) + exp(array[i]*(-1))/2
+                output.append(sinh/cosh)
             elif function == "sigmoid":
-                output.append(1/(math.exp(-1 * array[i]) + 1))
+                output.append(1/(exp(-1 * array[i]) + 1))
             elif function == "relu":
                 output.append(max(0,array[i]))
             elif function == "linear":
@@ -60,9 +63,11 @@ class Tensor:
         output = []
         for i in xrange(len(array)):
             if function == "tanh":
-                output.append(1 - np.tanh(array[i])**2)
+                sinh = exp(array[i]) - exp(array[i]*(-1))/2
+                cosh = exp(array[i]) + exp(array[i]*(-1))/2
+                output.append(1 - (sinh/cosh)**2)
             elif function == "sigmoid":
-                sigmoid = 1/(math.exp(-1 * array[i]) + 1)
+                sigmoid = 1/(exp(-1 * array[i]) + 1)
                 output.append(sigmoid * (1 - sigmoid))
             elif function == "relu":
                 if array[i] > 0:
@@ -137,8 +142,8 @@ class Network:
 
         #Defines the array that contains the layers
         self.layers = []
-        
-    def layer (self, layer_size,function):
+
+    def layer (self, layer_size, function):
 
         #Adds the layers, specifies the amount of neurons in each and initialises the weights
         for i in xrange(len(layer_size)):
@@ -191,7 +196,7 @@ class Network:
                 self.del_layer = self.input[layer]
 
                 #Applying the chain rule to find the gradient for the weights
-                self.chain = Tensor.multi(self.del_activation[neuron] * self.del_cost[neuron], self.del_layer,1)
+                self.chain = Tensor.multi(self.del_activation[neuron] * self.del_cost[neuron], self.del_layer, 1)
 
                 #Adding the gradient of the bias
                 self.chain.append(self.del_activation[neuron] * self.del_cost[neuron])
@@ -251,7 +256,7 @@ class Network:
 
     def test (self, input_, loss_type):
 
-        #The loss is calculated and returned
+        #The loss for either the testset or the trainingset is calculated and returned
         self.error = 0
         self.length = 0
         if loss_type == "test":

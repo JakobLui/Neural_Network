@@ -1,4 +1,3 @@
-import numpy as np
 import pygame, sys
 from config import Training_size
 
@@ -18,7 +17,7 @@ myfont = pygame.font.SysFont("Arial", 30)
 
 def stop_button (screen, x, y, mouse, train):
     #Draws the stop button
-    if np.sqrt((x - mouse[0])**2 + (y - mouse[1])**2) < 25:
+    if ((x - mouse[0])**2 + (y - mouse[1])**2)**0.5 < 25:
         pygame.draw.circle(screen, (120,120,120), (x, y),25,0)
         pygame.draw.circle(screen, (50,50,50), (x, y),25,2)
         pygame.draw.rect(screen,(100,100,100),(x - 10, y - 10,20,20),0)
@@ -31,7 +30,7 @@ def stop_button (screen, x, y, mouse, train):
 
 def play_button (screen, x, y, mouse, train):
     #Draws the play/pause button
-    if np.sqrt((x - mouse[0])**2 + (y - mouse[1])**2) < 25:
+    if ((x - mouse[0])**2 + (y - mouse[1])**2)**0.5 < 25:
         pygame.draw.circle(screen, (120,120,120), (x, y),25,0)
         pygame.draw.circle(screen, (50,50,50), (x, y),25,2)
         if train == False:
