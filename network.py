@@ -53,6 +53,8 @@ class Tensor:
                 output.append(max(0,array[i]))
             elif function == "linear":
                 output.append(array[i])
+            elif function == "logdif":
+                output.append(1/(1+1*exp(-array[i])))
 
         return output
 

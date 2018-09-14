@@ -4,6 +4,7 @@ from dataset import *
 from network import *
 from config import *
 from interface import *
+from numpy import *
 
 
 pygame.init()
@@ -43,7 +44,7 @@ def Main():
             Epoch = 0
 
             #A dataset is generated
-            x = Dataset(2,Datasize,Data_type)
+            x = Dataset(2,Datasize,Data_type,Feature)
 
             #The network and the learning rate is defined
             net = Network(2, Learning_rate)

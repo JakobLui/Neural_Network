@@ -12,7 +12,7 @@ class Dataset:
 
         return np.sqrt(output)
 
-    def __init__ (self, features, size, data_type):
+    def __init__ (self, features, size, data_type, feature):
         #Creates the dataset
         self.features = features
         self.size = size
@@ -25,9 +25,9 @@ class Dataset:
                 self.point.append(np.random.uniform(-1,1))
             self.data[i].append(self.point)
 
-           
-        #Specifies the class for each point 
-        
+
+        #Specifies the class for each point
+
         if data_type == "circle":
             for i in xrange(size):
                 if Dataset.dist(self.data[i][0]) < 0.75:
@@ -50,3 +50,9 @@ class Dataset:
                     self.data[i].append([0,1])
                 else:
                     self.data[i].append([1,0])
+
+        #Checks the feature and changes accordingly
+        if feature == "squared":
+            for i in xrange(size):
+                for j in xrange(2):
+                    self.data[i][0][j] = self.data[i][0][j]**2

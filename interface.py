@@ -1,5 +1,5 @@
 import pygame, sys
-from config import Training_size
+from config import Training_size, Feature, Discretize
 
 pygame.font.init()
 
@@ -76,8 +76,12 @@ def show_dataset (screen, dataset):
         else:
             color = (255,125,20)
 
-        point_x = int(round((dataset.data[i][0][0] + 1) * col * scale/2))
-        point_y = int(round((dataset.data[i][0][1] + 1) * row * scale/2))
+        if Feature == "squared":
+            center = 0
+        else:
+            center = 1
+        point_x = int(round((dataset.data[i][0][0] + center) * col * scale*(0.5*(2 - center))))
+        point_y = int(round((dataset.data[i][0][1] + center) * row * scale*(0.5*(2 - center))))
         pygame.draw.circle(screen, color, (point_x, point_y), 5, 0)
         pygame.draw.circle(screen, (0,0,0), (point_x, point_y), 5, 1)
 
@@ -85,20 +89,32 @@ def network_prediction (screen, network, firstTime):
     #Passes each pixel of the visualisation through network to determine the class and then draws the pixel
     for i in node_x:
         for j in node_y:
-            net_node_x = ((float(i + 0.5)/float(col))*2) - 1
-            net_node_y = ((float(j + 0.5)/float(row))*2) - 1
+            if Feature == "squared":
+                net_node_x = ((float(i)/float(col)))
+                net_node_y = ((float(j)/float(row)))
+            else:
+                net_node_x = ((float(i + 0.5)/float(col))*2) - 1
+                net_node_y = ((float(j + 0.5)/float(row))*2) - 1
             feed = network.feed_forward([net_node_x, net_node_y])
             if feed[0] < feed[1]:
                 if feed[1] == 0:
                     feed[1] = 0.00001
-                R = min(255, 100 + (100 * abs(feed[0] / feed[1])))
-                G = min(255, 100 + (100 * abs(feed[0] / feed[1])))
+                if Discretize:
+                    disc = 0
+                else:
+                    disc = (100 * abs(feed[0] / feed[1]))
+                R = min(255, 100 + disc)
+                G = min(255, 100 + disc)
                 color = (R,G,255)
             else:
                 if feed[0] == 0:
                     feed[0] = 0.00001
-                G = min(255,125 + (100 * abs(feed[1] / feed[0])))
-                B = min(255,20 + (100 * abs(feed[1] / feed[0])))
+                if Discretize:
+                    disc = 0
+                else:
+                    disc = (100 * abs(feed[1] / feed[0]))
+                G = min(255,125 + disc)
+                B = min(255,20 + disc)
                 color = (255,G,B)
 
             #Checks if the pixel has changed and draws it if it has
